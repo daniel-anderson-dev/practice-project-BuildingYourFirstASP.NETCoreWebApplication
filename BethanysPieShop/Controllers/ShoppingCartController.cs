@@ -1,6 +1,7 @@
 ﻿using BethanysPieShop.Models;
 using BethanysPieShop.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace BethanysPieShop.Controllers
 {
@@ -28,5 +29,18 @@ namespace BethanysPieShop.Controllers
 
             return View(shoppingCartViewModel);
         }
+
+        public RedirectToActionResult AddToShoppingCart(int pieId)
+        {
+            var selectedPie = _pieRepository.Pies.FirstOrDefault(p => p.PieId == pieId);
+
+            if (selectedPie != null)
+            {
+                _shoppingCart.AddToCart(selectedPie, 1);
+            }
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
